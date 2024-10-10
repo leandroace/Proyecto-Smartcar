@@ -1,0 +1,26 @@
+class SmartCar:
+    def __init__(self, city, parent, operator, depth, cost, heuristic):
+        """
+        Inicializa una instancia de la clase SmartCar, que representa un nodo
+        en los algoritmos de búsqueda para el proyecto de la ciudad inteligente.
+
+        Args:
+            city (City): La ciudad en la que se encuentra el Smart Car.
+            parent (SmartCar): El nodo padre en el árbol de búsqueda.
+            operator (int): El operador utilizado para llegar a esta instancia.
+            depth (int): La profundidad de esta instancia en el árbol de búsqueda.
+            cost (float): El costo acumulado hasta esta instancia.
+            heuristic (float): El valor heurístico para este nodo (en algoritmos informados).
+        """
+        self.city = city
+        self.parent = parent
+        self.operator = operator
+        self.depth = depth
+        self.cost = cost
+        self.heuristic = heuristic
+        self.current_position = city.start_position
+        self.passenger_picked = False
+
+        # Comprobar si el Smart Car ya está en la posición del pasajero
+        if self.current_position == city.passenger_position:
+            self.passenger_picked = True
