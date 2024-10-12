@@ -30,24 +30,41 @@ class SmartCar:
         return self.current_position.move_right()
 
     def expand(self, strategy):
-        # Expande el nodo actual generando los posibles movimientos
         moves = []
         directions = [(self.move_up, 'up'), (self.move_down, 'down'), 
-                      (self.move_left, 'left'), (self.move_right, 'right')]
+                  (self.move_left, 'left'), (self.move_right, 'right')]
         for move_func, direction in directions:
             new_position = move_func()
             if self.world.is_within_bounds(new_position) and not self.world.is_wall(new_position):
+                # Crear un nuevo nodo del carro
                 new_smart_car = SmartCar(self.world, self, direction, self.depth + 1, self.cost + 1, None)
                 new_smart_car.current_position = new_position
+            
+                # Preservar el estado de si el pasajero ha sido recogido
+                new_smart_car.passenger_picked_up = self.passenger_picked_up
+            
+                # Verificar si el nuevo nodo está en la posición del pasajero y recogerlo si es necesario
+                if self.world.is_passenger(new_position):
+                    new_smart_car.pick_up_passenger()
+
                 moves.append(new_smart_car)
         return moves
 
+
+
+
     def heuristic(self):
-        # Calcula la distancia Manhattan entre la posición actual y el destino
-        return self.current_position.manhattan_distance(self.world.destination_position)
+        if not self.passenger_picked_up:
+            # Calculate the Manhattan distance to the passenger
+            return self.current_position.manhattan_distance(self.world.passenger_position)
+        else:
+            # Calculate the Manhattan distance to the destination
+            return self.current_position.manhattan_distance(self.world.destination_position)
+
 
     def is_at_destination(self):
-        return self.current_position == self.world.destination_position
+        return self.passenger_picked_up and self.current_position == self.world.destination_position
+
 
     def solution(self):
         path = []

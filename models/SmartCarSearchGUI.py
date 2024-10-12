@@ -46,10 +46,15 @@ class SearchGUI:
         depth_title = pygame.font.SysFont('Arial', 20).render(f'Depth: {self.depth}', True, (0, 0, 0))
         compute_time_title = pygame.font.SysFont('Arial', 20).render(f'Computation Time: {round(self.computation_time, 4)}s', True, (0, 0, 0))
         cost = pygame.font.SysFont('Arial', 20).render(f'Cost: {self.cost}', True, (0, 0, 0))
-        
+    
         move_index = 0
         velocity = 0.5
-        while True:
+        passenger_picked_up = False  # Variable para saber si el pasajero ha sido recogido
+
+        # Variable para controlar si el carro ha llegado a la meta
+        car_at_destination = False
+
+        while not car_at_destination:
             self.screen.fill((255, 255, 255))
             for i in range(10):
                 for j in range(10):
@@ -61,22 +66,28 @@ class SearchGUI:
                         self.screen.blit(self.traffic_medium, (j * 40, i * 40))
                     elif self.tablero[i][j] == 4:
                         self.screen.blit(self.traffic_heavy, (j * 40, i * 40))
-                    elif self.tablero[i][j] == 5:
+                    elif self.tablero[i][j] == 5 and not passenger_picked_up:
                         self.screen.blit(self.passenger, (j * 40, i * 40))
                     elif self.tablero[i][j] == 6:
                         self.screen.blit(self.destination, (j * 40, i * 40))
-            for i in range(10):
-                for j in range(10, 20):
-                    self.screen.blit(self.background, (j * 40, i * 40))
-            
+
             if move_index < len(self.car_moves):
                 move = self.car_moves[move_index]
                 self.screen.blit(self.car, (move.column * 40, move.row * 40))
+
+                # Verificar si el carro está en la posición del pasajero
+                if self.tablero[move.row][move.column] == 5:
+                    passenger_picked_up = True
+
+                # Verificar si el carro ha llegado a la meta
+                if self.tablero[move.row][move.column] == 6:
+                    car_at_destination = True  # Detener la animación
+
                 move_index += 1
             else:
                 pygame.draw.rect(self.screen, (200, 0, 0), (470, 315, 100, 50))
                 pygame.font.SysFont('Arial', 20).render('Back', True, (255, 255, 255))
-            
+
             self.screen.blit(title, (450, 40))
             self.screen.blit(tree, (450, 100))
             self.screen.blit(expanded, (450, 140))
@@ -85,4 +96,9 @@ class SearchGUI:
             self.screen.blit(cost, (450, 260))
             pygame.display.flip()
             time.sleep(velocity)
+
+        # Mostrar un mensaje cuando el carro llega al destino
+        pygame.display.set_caption("¡El Smart Car ha llegado a su destino!")
+
+
 
