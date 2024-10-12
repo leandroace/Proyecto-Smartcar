@@ -37,18 +37,27 @@ class SmartCar:
             new_position = move_func()
             if self.world.is_within_bounds(new_position) and not self.world.is_wall(new_position):
                 # Crear un nuevo nodo del carro
-                new_smart_car = SmartCar(self.world, self, direction, self.depth + 1, self.cost + 1, None)
+                new_smart_car = SmartCar(self.world, self, direction, self.depth + 1, self.cost, None)
                 new_smart_car.current_position = new_position
-            
+
                 # Preservar el estado de si el pasajero ha sido recogido
                 new_smart_car.passenger_picked_up = self.passenger_picked_up
             
                 # Verificar si el nuevo nodo está en la posición del pasajero y recogerlo si es necesario
                 if self.world.is_passenger(new_position):
                     new_smart_car.pick_up_passenger()
+            
+                # Ajustar el costo acumulado dependiendo del tipo de tráfico
+                if self.world.is_traffic_medium(new_position):
+                    new_smart_car.cost += 4  # Costo de tráfico medio
+                elif self.world.is_traffic_heavy(new_position):
+                    new_smart_car.cost += 7  # Costo de tráfico pesado
+                else:
+                    new_smart_car.cost += 1  # Costo de tráfico liviano
 
                 moves.append(new_smart_car)
         return moves
+
 
 
 
