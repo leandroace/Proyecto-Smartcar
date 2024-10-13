@@ -28,7 +28,7 @@ class GUI:
         Args:
             master: La ventana principal de la GUI.
         """
-        # Configurar ventana principal
+       # Configurar ventana principal
         self.master = master
         screen_width = self.master.winfo_screenwidth()
         screen_height = self.master.winfo_screenheight()
@@ -49,39 +49,45 @@ class GUI:
         self.background_photo = ImageTk.PhotoImage(self.background_image)
         self.background_label = tk.Label(master, image=self.background_photo)
         self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
-        
+
         # Inicializar variables
         self.world = None
         self.search_algorithm = None
 
-        # Crear botones
-        self.btn_load_world = tk.Button(master, text="Cargar Archivo de Mundo", command=self.load_world)
-        self.btn_load_world.place(x=200, y=250)
+        # Botones con colores de semáforo 
+        button_style = {"font": ("Arial", 16, "bold"), "width": 20, "height": 1}  # Tamaño 
+        # Botón para cargar mundo
+        self.btn_load_world = tk.Button(master, text="Cargar Mundo", command=self.load_world, 
+                                        bg="green", fg="white", **button_style)
+        self.btn_load_world.place(relx=0.5, rely=0.3, anchor="center")  # Centrar en X y colocar en el 30% de la pantalla en Y
 
-        self.lbl_file_name = tk.Label(master, text="", font=("Arial", 12))
-        self.lbl_file_name.place(x=410, y=255)
+        # Mostrar el nombre del archivo cargado
+        self.lbl_file_name = tk.Label(master, text="", font=("Arial", 8))
+        self.lbl_file_name.place(relx=0.5, rely=0.35, anchor="center")  # Justo debajo del botón
 
+        # Menú desplegable para seleccionar tipo de búsqueda
         self.algorithm_var = tk.StringVar(master)
-        self.algorithm_var.set("Seleccionar Tipo de Búsqueda")
-
+        self.algorithm_var.set("Tipo de Búsqueda")
         self.algorithm_menu = tk.OptionMenu(master, self.algorithm_var, "No Informada", "Informada", command=self.show_algorithm_options)
-        self.algorithm_menu.place(x=200, y=325)
+        self.algorithm_menu.config(bg="yellow", fg="blue", **button_style)
+        self.algorithm_menu.place(relx=0.5, rely=0.45, anchor="center")  # Colocar en el centro, debajo del archivo
         self.algorithm_menu.config(state=tk.DISABLED)
 
+        # Menú desplegable para seleccionar algoritmos específicos
         self.algorithm_options_var = tk.StringVar(master)
         self.algorithm_options_var.set("Seleccionar Algoritmo")
         self.algorithm_options_menu = tk.OptionMenu(master, self.algorithm_options_var, "", "")
-        self.algorithm_options_menu.place(x=200, y=400)
+        self.algorithm_options_menu.config(bg="red", fg="blue", **button_style)
+        self.algorithm_options_menu.place(relx=0.5, rely=0.55, anchor="center")
         self.algorithm_options_menu.config(state=tk.DISABLED)
 
-        self.btn_run_algorithm = tk.Button(master, text="Ejecutar Búsqueda", command=self.run_algorithm)
-        self.btn_run_algorithm.place(x=200, y=475)
+        # Botón para ejecutar el algoritmo
+        self.btn_run_algorithm = tk.Button(master, text="Ejecutar", command=self.run_algorithm, 
+                                           bg="green", fg="yellow", **button_style)
+        self.btn_run_algorithm.place(relx=0.5, rely=0.65, anchor="center")
         self.btn_run_algorithm.config(state=tk.DISABLED)
 
     def load_world(self):
-        """
-        Abre un cuadro de diálogo para cargar un archivo de mundo.
-        """
         file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")], title="Seleccionar Archivo de Mundo", initialdir="./test")
         if file_path:
             relative_path = os.path.relpath(file_path)
@@ -89,12 +95,6 @@ class GUI:
             self.algorithm_menu.config(state=tk.NORMAL)
             
     def show_algorithm_options(self, selection):
-        """
-        Muestra las opciones de algoritmos según el tipo de búsqueda seleccionado.
-
-        Args:
-            selection: El tipo de búsqueda seleccionado.
-        """
         if selection == "No Informada":
             algorithms = ["Amplitud", "Costo Uniforme", "Profundidad Evitando Ciclos"]
         elif selection == "Informada":
@@ -102,22 +102,15 @@ class GUI:
         else:
             algorithms = []
 
-        # Actualizar las opciones del menú desplegable de algoritmos
-        self.algorithm_options_var.set(algorithms[0])  # Establecer el primer algoritmo como predeterminado
-        self.algorithm_options_menu["menu"].delete(0, "end")  # Limpiar las opciones actuales
+        self.algorithm_options_var.set(algorithms[0])
+        self.algorithm_options_menu["menu"].delete(0, "end")
         for algorithm in algorithms:
             self.algorithm_options_menu["menu"].add_command(label=algorithm, command=tk._setit(self.algorithm_options_var, algorithm))
 
-        # Habilitar el menú desplegable de algoritmos y las opciones correspondientes
         self.algorithm_options_menu.config(state=tk.NORMAL)
-
-        # Habilitar el botón de ejecución de algoritmo
         self.btn_run_algorithm.config(state=tk.NORMAL)
 
     def run_algorithm(self):
-        """
-        Ejecuta el algoritmo de búsqueda seleccionado.
-        """
         selected_algorithm = self.algorithm_options_var.get()
         try:
             self.world = World(self.lbl_file_name.cget("text"))
