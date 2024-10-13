@@ -3,22 +3,21 @@ import os
 import time
 
 class SearchGUI:
+    # Clase que se encarga de la interfaz gráfica de búsqueda
+    # Atributos:
+    # path (str): La ruta del archivo de prueba.
+    # search_results: Una lista que contiene los resultados de la búsqueda.
+    # Los resultados deben estar en el siguiente orden:
+    # - car_moves (list): Lista de movimientos del SmartCar.
+    # - tree_nodes (int): Número de nodos del árbol de búsqueda.
+    # - expanded_nodes (int): Número de nodos expandidos durante la búsqueda.
+    # - depth (int): Profundidad de la solución encontrada.
+    # - computation_time (float): Tiempo de cómputo de la búsqueda.
+    # - cost (int): Costo de la solución encontrada.
+    # algorithm (str): El algoritmo de búsqueda utilizado ('bfs', 'ucs','dfs', 'greedy'. 'astar').
+        
     def __init__(self, path, search_results, algorithm):
-        """
-        Inicializa la interfaz gráfica de búsqueda.
 
-        Args:
-            path (str): La ruta del archivo de prueba.
-            search_results: Una lista que contiene los resultados de la búsqueda.
-                Los resultados deben estar en el siguiente orden:
-                - car_moves (list): Lista de movimientos del SmartCar.
-                - tree_nodes (int): Número de nodos del árbol de búsqueda.
-                - expanded_nodes (int): Número de nodos expandidos durante la búsqueda.
-                - depth (int): Profundidad de la solución encontrada.
-                - computation_time (float): Tiempo de cómputo de la búsqueda.
-                - cost (int): Costo de la solución encontrada.
-            algorithm (str): El algoritmo de búsqueda utilizado ('bfs', 'ucs','dfs', 'greedy'. 'astar').
-        """
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.init()
         self.empty = pygame.transform.scale(pygame.image.load('./images/empty.png'), (40, 40))

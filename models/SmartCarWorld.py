@@ -2,6 +2,16 @@
 from .SmartCarPosition import Position
 
 class World:
+    #Clase que representa el mundo en el que se mueve el carro.
+    #Atributos:
+    # - matrix (list): Una matriz que representa el mundo.
+    # - dimension (tuple): Una tupla que representa las dimensiones de la matriz (filas, columnas).
+    # - start_position (Position): La posición de inicio en el mundo.
+    # - passenger_position (Position): La posición del pasajero en el mundo.
+    # - destination_position (Position): La posición del destino en el mundo.
+    # - traffic_medium (list): Una lista de posiciones con tráfico medio en el mundo.
+    # - traffic_heavy (list): Una lista de posiciones con tráfico pesado en el mundo.
+    
     def __init__(self, file):
         """
         Inicializa una instancia de la clase World.
@@ -42,98 +52,81 @@ class World:
                     elif self.matrix[i][j] == 6:
                         self.destination_position = Position(i, j)
 
+# Devuelve el valor de la casilla en la posición dada.
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - El valor de la casilla en la posición dada.
     def get_tile(self, position):
-        """
-        Devuelve el valor de la casilla en la posición dada.
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - El valor de la casilla en la posición dada.
-        """
         return self.matrix[position.row][position.column]
+    
+    
 
+# Verifica si la casilla en la posición dada está vacía (tráfico liviano).
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - True si la casilla está vacía, False de lo contrario.
     def is_empty(self, position):
-        """
-        Verifica si la casilla en la posición dada está vacía (tráfico liviano).
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la casilla está vacía, False de lo contrario.
-        """
         return self.get_tile(position) == 0
 
+
+
+# Verifica si la posición dada contiene al pasajero.
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - True si la posición contiene al pasajero, False de lo contrario.
     def is_passenger(self, position):
-        """
-        Verifica si la posición dada contiene al pasajero.
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la posición contiene al pasajero, False de lo contrario.
-        """
         return position == self.passenger_position
 
+
+
+# Verifica si la posición dada contiene el destino.
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - True si la posición contiene el destino, False de lo contrario.
     def is_destination(self, position):
-        """
-        Verifica si la posición dada contiene el destino.
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la posición contiene el destino, False de lo contrario.
-        """
         return position == self.destination_position
 
+
+
+# Verifica si la casilla en la posición dada tiene tráfico medio.
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - True si la casilla tiene tráfico medio, False de lo contrario.
     def is_traffic_medium(self, position):
-        """
-        Verifica si la casilla en la posición dada tiene tráfico medio.
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la casilla tiene tráfico medio, False de lo contrario.
-        """
         return position in self.traffic_medium
 
+
+
+# Verifica si la casilla en la posición dada tiene tráfico pesado.
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - True si la casilla tiene tráfico pesado, False de lo contrario.
+
     def is_traffic_heavy(self, position):
-        """
-        Verifica si la casilla en la posición dada tiene tráfico pesado.
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la casilla tiene tráfico pesado, False de lo contrario.
-        """
         return position in self.traffic_heavy
 
+
+
+# Verifica si la casilla en la posición dada es una pared.
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - True si la casilla es una pared, False de lo contrario.
     def is_wall(self, position):
-        """
-        Verifica si la casilla en la posición dada es una pared.
 
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la casilla es una pared, False de lo contrario.
-        """
         return self.get_tile(position) == 1
 
+
+# Verifica si la posición dada está dentro de los límites del mundo.
+# Parámetros:
+# - position: Posición en el mundo.
+# Retorna:
+# - True si la posición está dentro de los límites del mundo, False de lo contrario.
     def is_within_bounds(self, position):
-        """
-        Verifica si la posición dada está dentro de los límites del mundo.
-
-        Parámetros:
-        - position: Posición en el mundo.
-
-        Retorna:
-        - True si la posición está dentro de los límites del mundo, False de lo contrario.
-        """
         return position.is_within(self.dimension)

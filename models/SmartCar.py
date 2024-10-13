@@ -98,3 +98,5 @@ class SmartCar:
 
     def __hash__(self):
         return hash((self.current_position, self.passenger_picked_up))
+
+
