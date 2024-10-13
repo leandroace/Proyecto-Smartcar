@@ -9,8 +9,13 @@ class SmartCar:
         self.current_position = world.start_position
         self.passenger_picked_up = False
 
+    def __str__(self):
+        return (f"SmartCar Details:\n"
+                f"Current Position: {self.current_position} | Passenger Picked Up: {self.passenger_picked_up} | Depth: {self.depth} | Cost: {self.cost} | Operator: {self.operator} Parent: {self.parent}")
+        
     def move(self, new_position):
         self.current_position = new_position
+        print(f'Picked passenger from move method in SmartCar')
         if self.world.is_passenger(new_position):
             self.pick_up_passenger()
 
@@ -37,7 +42,15 @@ class SmartCar:
             new_position = move_func()
             if self.world.is_within_bounds(new_position) and not self.world.is_wall(new_position):
                 # Crear un nuevo nodo del carro
-                new_smart_car = SmartCar(self.world, self, direction, self.depth + 1, self.cost, None)
+                # Ajustar el costo acumulado dependiendo del tipo de tráfico
+                if self.world.is_traffic_medium(new_position):
+                    move_cost = 4  # Costo de tráfico medio
+                elif self.world.is_traffic_heavy(new_position):
+                    move_cost = 7  # Costo de tráfico pesado
+                else:
+                    move_cost = 1  # Costo de tráfico liviano
+
+                new_smart_car = SmartCar(self.world, self, direction, self.depth + 1, self.cost + move_cost, None)
                 new_smart_car.current_position = new_position
 
                 # Preservar el estado de si el pasajero ha sido recogido
@@ -46,14 +59,8 @@ class SmartCar:
                 # Verificar si el nuevo nodo está en la posición del pasajero y recogerlo si es necesario
                 if self.world.is_passenger(new_position):
                     new_smart_car.pick_up_passenger()
-            
-                # Ajustar el costo acumulado dependiendo del tipo de tráfico
-                if self.world.is_traffic_medium(new_position):
-                    new_smart_car.cost += 4  # Costo de tráfico medio
-                elif self.world.is_traffic_heavy(new_position):
-                    new_smart_car.cost += 7  # Costo de tráfico pesado
-                else:
-                    new_smart_car.cost += 1  # Costo de tráfico liviano
+
+                
 
                 moves.append(new_smart_car)
         return moves
@@ -83,6 +90,7 @@ class SmartCar:
             current = current.parent
         path.append(current.current_position)
         path.reverse()
+        print(f"Camino encontrado {path}")
         return path
 
     def __eq__(self, other):
