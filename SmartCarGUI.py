@@ -58,7 +58,7 @@ class GUI:
         button_style = {"font": ("Arial", 16, "bold"), "width": 20, "height": 1}  # Tamaño 
         # Botón para cargar mundo
         self.btn_load_world = tk.Button(master, text="Cargar Mundo", command=self.load_world, 
-                                        bg="green", fg="white", **button_style)
+                                        bg="white", fg="black", **button_style)
         self.btn_load_world.place(relx=0.5, rely=0.3, anchor="center")  # Centrar en X y colocar en el 30% de la pantalla en Y
 
         # Mostrar el nombre del archivo cargado
@@ -69,7 +69,7 @@ class GUI:
         self.algorithm_var = tk.StringVar(master)
         self.algorithm_var.set("Tipo de Búsqueda")
         self.algorithm_menu = tk.OptionMenu(master, self.algorithm_var, "No Informada", "Informada", command=self.show_algorithm_options)
-        self.algorithm_menu.config(bg="yellow", fg="blue", **button_style)
+        self.algorithm_menu.config(bg="red", fg="blue", **button_style)
         self.algorithm_menu.place(relx=0.5, rely=0.45, anchor="center")  # Colocar en el centro, debajo del archivo
         self.algorithm_menu.config(state=tk.DISABLED)
 
@@ -77,7 +77,7 @@ class GUI:
         self.algorithm_options_var = tk.StringVar(master)
         self.algorithm_options_var.set("Seleccionar Algoritmo")
         self.algorithm_options_menu = tk.OptionMenu(master, self.algorithm_options_var, "", "")
-        self.algorithm_options_menu.config(bg="red", fg="blue", **button_style)
+        self.algorithm_options_menu.config(bg="yellow", fg="blue", **button_style)
         self.algorithm_options_menu.place(relx=0.5, rely=0.55, anchor="center")
         self.algorithm_options_menu.config(state=tk.DISABLED)
 

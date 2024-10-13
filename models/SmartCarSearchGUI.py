@@ -80,7 +80,7 @@ class SearchGUI:
                     passenger_picked_up = True
 
                 # Verificar si el carro ha llegado a la meta
-                if self.tablero[move.row][move.column] == 6:
+                if self.tablero[move.row][move.column] == 6 and passenger_picked_up:
                     car_at_destination = True  # Detener la animación
 
                 move_index += 1
