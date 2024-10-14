@@ -106,3 +106,4 @@ def DepthFirstSearch(world):
                     tree.append(next_node)
                     explored_in_branch.add(next_node)
             explored.add(current)
+

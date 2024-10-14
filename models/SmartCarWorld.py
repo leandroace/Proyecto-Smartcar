@@ -130,3 +130,4 @@ class World:
 # - True si la posición está dentro de los límites del mundo, False de lo contrario.
     def is_within_bounds(self, position):
         return position.is_within(self.dimension)
+

@@ -74,3 +74,4 @@ class Position:
     #Returns: str: La representación en cadena de la posición
     def __repr__(self):
         return f"({self.row}, {self.column})"
+

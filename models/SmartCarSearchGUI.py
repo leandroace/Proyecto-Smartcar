@@ -15,6 +15,7 @@ class SearchGUI:
     # - computation_time (float): Tiempo de cómputo de la búsqueda.
     # - cost (int): Costo de la solución encontrada.
     # algorithm (str): El algoritmo de búsqueda utilizado ('bfs', 'ucs','dfs', 'greedy'. 'astar').
+    
         
     def __init__(self, path, search_results, algorithm):
 
@@ -108,6 +109,7 @@ class SearchGUI:
 
         # Mostrar un mensaje cuando el carro llega al destino
         pygame.display.set_caption("¡El Smart Car ha llegado a su destino!")
+
 
 
 
