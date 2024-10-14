@@ -39,13 +39,23 @@ class SearchGUI:
 
     def draw(self):
         pygame.display.set_caption("Smart Car Search Visualization")
-        title = pygame.font.SysFont('Arial', 25).render('Smart Car Search', True, (0, 0, 0))
-        tree = pygame.font.SysFont('Arial', 20).render(f'Tree Nodes: {self.tree_nodes}', True, (0, 0, 0))
-        expanded = pygame.font.SysFont('Arial', 20).render(f'Expanded Nodes: {self.expanded_nodes}', True, (0, 0, 0))
-        depth_title = pygame.font.SysFont('Arial', 20).render(f'Depth: {self.depth}', True, (0, 0, 0))
-        compute_time_title = pygame.font.SysFont('Arial', 20).render(f'Computation Time: {round(self.computation_time, 4)}s', True, (0, 0, 0))
-        cost = pygame.font.SysFont('Arial', 20).render(f'Cost: {self.cost}', True, (0, 0, 0))
-    
+        
+        # Definir nuevas fuentes estilizadas
+        title_font = pygame.font.SysFont('Verdana', 28, bold=True)  # Fuente para el título
+        info_font = pygame.font.SysFont('Verdana', 22)  # Fuente para la información
+        
+        # Definir nuevos colores
+        title_color = (0, 128, 255)  # Azul brillante para el título
+        info_color = (34, 139, 34)   # Verde oscuro para la información
+        
+        # Renderizar los textos con nuevas fuentes y colores
+        title = title_font.render('Smart Car Search', True, title_color)
+        tree = info_font.render(f'Tree Nodes: {self.tree_nodes}', True, info_color)
+        expanded = info_font.render(f'Expanded Nodes: {self.expanded_nodes}', True, info_color)
+        depth_title = info_font.render(f'Depth: {self.depth}', True, info_color)
+        compute_time_title = info_font.render(f'Computation Time: {round(self.computation_time, 4)}s', True, info_color)
+        cost = info_font.render(f'Cost: {self.cost}', True, info_color)
+        
         move_index = 0
         velocity = 0.5
         passenger_picked_up = False  # Variable para saber si el pasajero ha sido recogido
